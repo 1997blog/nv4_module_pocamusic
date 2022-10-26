@@ -51,7 +51,7 @@ function viewcat_list_music($allMusic, $catid, $generate_page)
  * @param string $generate_page
  * @return string
  */
-function view_detail_cat_music($listMusic)
+function view_detail_cat_music($listMusic, $content_comment)
 {
     global $site_mods, $module_name, $module_upload, $lang_module, $module_config, $module_info, $catid, $page;
 
@@ -71,6 +71,11 @@ function view_detail_cat_music($listMusic)
 		$xtpl->parse('main.loop');
 	}
 	
+    if (!empty($content_comment)) {
+        $xtpl->assign('CONTENT_COMMENT', $content_comment);
+        $xtpl->parse('main.comment');
+    }
+    
     $xtpl->parse('main');
     return $xtpl->text('main');
 }

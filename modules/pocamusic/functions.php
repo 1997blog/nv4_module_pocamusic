@@ -54,7 +54,7 @@ if (!empty($array_op) and $op == 'main') {
     if ($count_op == 1) {
         if ($catid == 0) {
             // Trang chủ
-            $contents = $lang_module['nocatpage'] . $array_op[0];
+            $contents = $array_op[0];
         } else {
             // Xem chuyên mục
             $op = 'viewcat';

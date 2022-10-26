@@ -27,7 +27,30 @@ while ($item = $result->fetch()) {
 	$listMusic[] = $item;
 }
 
-$contents = call_user_func( 'view_detail_cat_music',$listMusic);
+// Kiểm tra module có sử dụng chức năng comment và module comment được kích hoạt
+if (isset($site_mods['comment']) and isset($module_config[$module_name]['activecomm'])) {
+    $id = $catid; // Chỉ ra ID của đối tượng được bình luận
+    $area = $module_info['funcs'][$op]['func_id']; // Chỉ ra phạm vi (loại, vị trí...) của đối tượng bình luận
+ 
+    define('NV_COMM_ID', $id); // Định nghĩa hằng này để module comment hiểu
+    define('NV_COMM_AREA', $area); // Định nghĩa hằng này để module comment hiểu
+ 
+    // Kiểm tra quyền bình luận
+    $allowed = $module_config[$module_name]['allowed_comm'];
+    if ($allowed == '-1') {
+        // Quyền bình luận theo đối tượng
+        //$allowed = $news_contents['allowed_comm'];
+        $allowed = 4;
+    }
+    require_once NV_ROOTDIR . '/modules/comment/comment.php';
+    $checkss = md5($module_name . '-' . $area . '-' . $id . '-' . $allowed . '-' . NV_CACHE_PREFIX);
+ 
+    $content_comment = nv_comment_module($module_name, $checkss, $area, $id, $allowed, 1);
+} else {
+    $content_comment = '';
+}
+
+$contents = call_user_func( 'view_detail_cat_music',$listMusic, $content_comment);
 
 if ($page > 1) {
     $page_title .= NV_TITLEBAR_DEFIS . $lang_global['page'] . ' ' . $page;
