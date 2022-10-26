@@ -1,0 +1,16 @@
+.cat {
+	margin: 20px;
+	padding: 0;
+}
+
+.cat__name {
+	padding-left: 20px;
+}
+
+.song__image .imghome {
+    margin: 4px 10px 0 0;
+}
+
+.text-muted {
+	margin-top: 20px;
+}
